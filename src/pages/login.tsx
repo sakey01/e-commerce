@@ -1,22 +1,22 @@
+import { Loader } from "lucide-react";
+import Account from "../components/account";
 import SignIn from "../components/sign-in";
-import SignUp from "../components/sign-up";
-import { supabase } from "../supabase";
+import { useAuthSession } from "../hooks/useAuthSession";
 
 const Login = () => {
-  const userSession = async () => {
-    try {
-      const { data } = await supabase.auth.getSession();
-      console.log(data.session);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  userSession();
+  const { isSignedIn, isLoading, signOut } = useAuthSession();
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader className="animate-spin w-12 h-12 text-gray-600" />
+      </div>
+    );
 
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-col flex-1 gap-4 justify-center text-center items-center">
-        <SignIn /> : <SignUp />
+        {isSignedIn ? <Account signOut={signOut} /> : <SignIn />}
       </main>
     </div>
   );

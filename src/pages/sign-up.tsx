@@ -1,47 +1,126 @@
-import { ArrowLeft, Mail, EyeOff, Eye, Lock, ArrowRight } from "lucide-react";
+import { ArrowLeft, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
+import Loader from "../components/loader";
 
 const SignUp = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [password2, setPassword2] = useState<string>("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    password2?: string;
+    general?: string;
+  }>({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const validateForm = (): boolean => {
+    const newErrors: {
+      email?: string;
+      password?: string;
+      password2?: string;
+    } = {};
+
+    // Email validation
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    // Password validation
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    // Confirm password validation
+    if (!password2) {
+      newErrors.password2 = "Please confirm your password";
+    } else if (password !== password2) {
+      newErrors.password2 = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Form submission
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setErrors({});
+
     try {
-      const { data } = await supabase.auth.signUp({ email, password });
-    } catch (e) {
-      console.error(e);
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        if (error.message.includes("User already registered")) {
+          setErrors({ email: "An account with this email already exists" });
+        } else {
+          setErrors({ general: error.message });
+        }
+      } else {
+        // Success - redirect or show success message
+        navigate("/verify-email"); // or wherever you want to redirect
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setErrors({ general: "An unexpected error occurred. Please try again." });
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-red-600">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen w-screen flex items-center justify-center p-4 bg-red-600">
       {/* Back arrow */}
       <ArrowLeft
-        className="absolute left-5 top-5 text-white text-2xl cursor-pointer"
-        onClick={() => {
-          navigate(-1);
-        }}
+        className="absolute left-5 top-5 text-white text-2xl cursor-pointer hover:text-red-200 transition-colors"
+        onClick={() => navigate(-1)}
       />
 
-      <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md space-y-6">
         {/* Title */}
-        <div>
-          <h1 className="text-2xl font-semibold">Sign Up</h1>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
+          <p className="text-gray-600 mt-2">Join us today!</p>
         </div>
+
+        {/* General Error */}
+        {errors.general && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <p className="text-red-700 text-sm">{errors.general}</p>
+          </div>
+        )}
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Email Field */}
           <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -59,19 +138,22 @@ const SignUp = () => {
                     ? "border-red-300 bg-red-50"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
-                required
               />
             </div>
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
           {/* Password Field */}
           <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 id="password"
                 name="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => {
@@ -83,7 +165,6 @@ const SignUp = () => {
                     ? "border-red-300 bg-red-50"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
-                required
               />
               <button
                 type="button"
@@ -93,14 +174,20 @@ const SignUp = () => {
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+          </div>
 
-            {/* Confirm Password */}
+          {/* Confirm Password Field */}
+          <div>
+            <label htmlFor="password2" className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 id="password2"
                 name="password2"
+                type={showPassword2 ? "text" : "password"}
                 placeholder="Confirm your password"
                 value={password2}
                 onChange={(e) => {
@@ -112,16 +199,23 @@ const SignUp = () => {
                     ? "border-red-300 bg-red-50"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
-                required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword2(!showPassword2)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+              >
+                {showPassword2 ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
+            {errors.password2 && <p className="text-red-500 text-sm mt-1">{errors.password2}</p>}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 flex items-center justify-center space-x-2 ${
+            className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 flex items-center justify-center space-x-2 mt-6 ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-red-600 hover:bg-red-700 hover:shadow-lg transform hover:scale-[1.02]"
@@ -130,25 +224,25 @@ const SignUp = () => {
             {isLoading ? (
               <>
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                <span>Signing In...</span>
+                <span>Creating Account...</span>
               </>
             ) : (
               <>
-                <span>Sign In</span>
+                <span>Create Account</span>
                 <ArrowRight className="w-5 h-5" />
               </>
             )}
           </button>
 
-          {/* Sign Up Link */}
+          {/* Sign In Link */}
           <div className="text-center pt-4">
             <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{" "}
+              Already have an account?{" "}
               <Link
-                to="/signup"
+                to="/login"
                 className="text-red-600 hover:text-red-700 font-medium transition-colors"
               >
-                Sign up here
+                Sign in here
               </Link>
             </p>
           </div>

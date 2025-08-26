@@ -25,8 +25,8 @@ const SignIn = () => {
 
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    } else if (password.length < 4) {
+      newErrors.password = "Password must be at least 4 characters";
     }
 
     setErrors(newErrors);
@@ -57,6 +57,8 @@ const SignIn = () => {
       setIsLoading(false);
     }
   };
+
+
 
   // Components
   return (
@@ -177,7 +179,7 @@ const SignIn = () => {
             <p className="text-sm text-gray-600">
               Don&apos;t have an account?{" "}
               <Link
-                to="/signup"
+                to="/sign-up"
                 className="text-red-600 hover:text-red-700 font-medium transition-colors"
               >
                 Sign up here
