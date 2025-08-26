@@ -8,15 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
-        with:
-          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -24,8 +21,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          # Supabase key
-          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }} # API Key
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
