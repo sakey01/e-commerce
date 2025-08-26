@@ -11,7 +11,7 @@ const ContactUs = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -110,9 +110,7 @@ const ContactUs = () => {
                     id="message"
                     name="message"
                     required
-                    rows="5"
                     value={formData.message}
-                    onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-colors resize-vertical"
                     placeholder="Tell us more about your inquiry..."
                   />
