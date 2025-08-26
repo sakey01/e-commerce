@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount] = useState(0);
 
   return (
     <>
