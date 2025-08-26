@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+html {
+    background-color: white;
+}
+
+button {
+    cursor: pointer;
+}
+
+::-webkit-scrollbar-button {
+    width: 8px;
+    height: 10px;
+}
