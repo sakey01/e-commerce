@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <HashRouter basename="/e-commerce">
+      <HashRouter>
         <App />
       </HashRouter>
     </Provider>
