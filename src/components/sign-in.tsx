@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
@@ -8,10 +8,15 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
+
+  // Focus input on render
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   // Handle validation
   const validateForm = () => {
@@ -58,8 +63,6 @@ const SignIn = () => {
     }
   };
 
-
-
   // Components
   return (
     <div className="min-h-screen w-screen flex items-center justify-center p-4 bg-red-600">
@@ -67,14 +70,15 @@ const SignIn = () => {
       <ArrowLeft
         className="absolute left-5 top-5 text-white text-2xl cursor-pointer"
         onClick={() => {
-          navigate(-1);
+          setIsLoading(true);
+          navigate("/");
         }}
       />
 
       <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
         {/* Title */}
         <div>
-          <h1 className="text-2xl font-semibold">Sign In</h1>
+          <h1 className="text-2xl font-semibold">URBANARC LOGIN</h1>
         </div>
 
         {/* Form */}
@@ -86,6 +90,7 @@ const SignIn = () => {
               <input
                 id="email"
                 name="email"
+                ref={inputRef}
                 type="email"
                 placeholder="Enter your email"
                 value={email}
@@ -134,21 +139,6 @@ const SignIn = () => {
               </button>
             </div>
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-          </div>
-
-          {/* Remember Me */}
-          <div className="flex items-center justify-between">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
-                onChange={(e) => {
-                  setRememberMe(e.target.checked);
-                }}
-              />
-              <span className="text-sm text-gray-700">Remember me</span>
-            </label>
           </div>
 
           {/* Submit Button */}

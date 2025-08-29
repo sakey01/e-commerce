@@ -36,13 +36,13 @@ const Cart = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between"></div>
                   <div className="flex justify-between">
-                    <span>Shipping</span>
-                    <span>$5.99</span>
+                    
                   </div>
                   <div className="flex justify-between font-bold">
                     <span>Total</span>
                   </div>
                 </div>
+                
                 <Link
                   to="/checkout"
                   className="block w-full text-center bg-blue-600 text-white py-2 mt-4"

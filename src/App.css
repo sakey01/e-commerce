@@ -1,14 +1,47 @@
 @import "tailwindcss";
 
 html {
-    background-color: white;
+  background-color: white;
+  scroll-behavior: smooth;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-::-webkit-scrollbar-button {
-    width: 8px;
-    height: 10px;
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff0000;
+  border-radius: 4px;
+  width: 8px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cf0000;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+
+/* Input autofill style */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset; /* match your background */
+  -webkit-text-fill-color: black;         /* text color */
+  transition: background-color 5000s ease-in-out 0s; /* prevent flash */
 }

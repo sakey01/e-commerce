@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { Heart, Users, Award, Truck } from "lucide-react";
+import Footer from "../components/footer";
 
 const About = () => {
   return (
@@ -25,7 +26,7 @@ const About = () => {
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
                 <p className="text-gray-600 mb-4 leading-relaxed">
-                  Founded in 2020, Soupreme began with a simple mission: to make premium,
+                  Founded in 2025, Soupreme began with a simple mission: to make premium,
                   high-quality products accessible to everyone. What started as a small passion
                   project has grown into a trusted brand that serves thousands of satisfied
                   customers worldwide.
@@ -37,7 +38,7 @@ const About = () => {
                 </p>
               </div>
               <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                <p className="text-gray-500">Story Image Placeholder</p>
+                <img src="" />
               </div>
             </div>
           </div>
@@ -96,26 +97,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="bg-gray-100 py-16">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-3 gap-8 text-center">
-              <div>
-                <div className="text-4xl font-bold text-red-600 mb-2">10,000+</div>
-                <p className="text-gray-600">Happy Customers</p>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-red-600 mb-2">500+</div>
-                <p className="text-gray-600">Premium Products</p>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-red-600 mb-2">4.9/5</div>
-                <p className="text-gray-600">Customer Rating</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* CTA Section */}
         <section className="py-16">
           <div className="container mx-auto px-4 text-center">
@@ -126,7 +107,7 @@ const About = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/collections"
+                to="/products"
                 className="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
               >
                 Shop Now
@@ -137,16 +118,11 @@ const About = () => {
               >
                 Get in Touch
               </Link>
-              <Link
-                to="/checkout"
-                className="bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
-              >
-                Checkout
-              </Link>
             </div>
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

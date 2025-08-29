@@ -174,12 +174,12 @@ const ContactUs = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
-                    <p className="text-gray-600 mb-2">Mon-Fri 9AM-6PM EST</p>
+                    <p className="text-gray-600 mb-2">Mon-Fri 9AM-5PM</p>
                     <a
                       href="tel:+1234567890"
                       className="text-red-600 hover:text-red-700 font-medium"
                     >
-                      +1 (234) 567-8900
+                      +11 567-8900
                     </a>
                   </div>
                 </div>
@@ -191,22 +191,14 @@ const ContactUs = () => {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Visit Us</h3>
                     <p className="text-gray-600">
-                      123 Commerce Street
+                      123 Downing Street
                       <br />
-                      New York, NY 10001
+                      London, W1
                       <br />
-                      United States
+                      UK
                     </p>
                   </div>
                 </div>
-              </div>
-
-              {/* Response Time */}
-              <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                <h3 className="font-semibold text-red-800 mb-2">Quick Response Guaranteed</h3>
-                <p className="text-red-700 text-sm">
-                  We typically respond to all inquiries within 24 hours during business days.
-                </p>
               </div>
             </div>
           </div>

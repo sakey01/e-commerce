@@ -2,7 +2,6 @@ import { ArrowLeft, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
-import Loader from "../components/loader";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -52,14 +51,17 @@ const SignUp = () => {
   };
 
   // Form submission
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    // Run validatiosn checks before proceeding
     if (!validateForm()) return;
 
     setIsLoading(true);
     setErrors({});
 
+
+    // Sign up process
     try {
       const { error } = await supabase.auth.signUp({
         email,
@@ -72,9 +74,6 @@ const SignUp = () => {
         } else {
           setErrors({ general: error.message });
         }
-      } else {
-        // Success - redirect or show success message
-        navigate("/verify-email"); // or wherever you want to redirect
       }
     } catch (error) {
       console.error("Signup error:", error);
@@ -84,20 +83,14 @@ const SignUp = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-red-600">
-        <Loader />
-      </div>
-    );
-  }
 
+  // Components
   return (
     <div className="min-h-screen w-screen flex items-center justify-center p-4 bg-red-600">
       {/* Back arrow */}
       <ArrowLeft
         className="absolute left-5 top-5 text-white text-2xl cursor-pointer hover:text-red-200 transition-colors"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/login")}
       />
 
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md space-y-6">

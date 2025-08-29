@@ -25,7 +25,7 @@ const Navbar = () => {
             </button>
 
             {/* Desktop Navigation Links - Left */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-8 text-md">
               <Link
                 to="/products"
                 className="text-white hover:text-red-200 font-medium transition-colors duration-200 relative group"
@@ -52,9 +52,9 @@ const Navbar = () => {
             {/* Brand Name - Center */}
             <Link
               to="/"
-              className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold text-white hover:text-red-100 transition-colors duration-200"
+              className="absolute left-1/2 transform -translate-x-1/2 text-xl scale-y-120 font-bold text-white hover:text-red-100 transition-colors duration-200"
             >
-              Soupreme
+              URBANARC
             </Link>
 
             {/* Right Side Icons */}
@@ -126,7 +126,7 @@ const Navbar = () => {
                 className="block w-full text-center bg-white text-red-600 font-bold py-3 px-6 rounded-lg hover:bg-red-50 transition-colors duration-200"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Shop Now - 25% Off
+                Shop Now
               </Link>
             </div>
           </div>

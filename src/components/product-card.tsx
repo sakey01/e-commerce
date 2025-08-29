@@ -1,7 +1,7 @@
 // src/components/product-card.tsx
 
 type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
 };

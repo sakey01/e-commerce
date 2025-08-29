@@ -5,7 +5,7 @@ import { supabase } from "../supabase";
 import Loader from "../components/loader";
 
 type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
 };
@@ -31,11 +31,11 @@ const Products = () => {
           return;
         }
 
-        // Set products if data is not null
+        // Set products if is not null
         setProducts(data || []);
       } catch (error) {
-        console.error("An unexpected error occurred:", error);
-        setError("An unexpected error occurred. Please try again.");
+        console.error("An error occurred:", error);
+        setError("An error occurred. Please try again.");
       } finally {
         setIsLoading(false);
       }
@@ -86,7 +86,7 @@ const Products = () => {
           <p className="text-gray-600">Discover our curated selection of premium products</p>
         </div>
 
-        {/* Filters and Sort */}
+        {/* Filters and Sort options -- in progress */}
         <div className="flex justify-center gap-4 mb-8">
           <button className="border border-gray-300 bg-white px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium">
             FILTER
@@ -96,7 +96,7 @@ const Products = () => {
           </button>
         </div>
 
-        {/* Products Grid */}
+        {/* Products List */}
         {products.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-gray-500 text-lg">No products found.</p>

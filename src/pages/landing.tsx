@@ -3,11 +3,14 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabase";
+import Footer from "../components/footer";
 
 const Landing = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
+
+  // Newsletter
   const handleSubmission = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -26,13 +29,13 @@ const Landing = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-red-50 to-white">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
 
       {/* Hero Section */}
       <section className="flex-1 flex flex-col justify-center items-center text-center px-4 py-16 max-w-6xl gap-8 mx-auto">
         <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-          The Soup That <span className="text-red-600 decoration-red-300">Changed Everything</span>
+          URBANARC  <span className="text-red-600 decoration-red-300">Changed Everything</span>
         </h1>
 
         {/* CTA Buttons */}
@@ -41,7 +44,7 @@ const Landing = () => {
             to="/products"
             className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-xl font-bold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
           >
-            SHOP NOW - 25% OFF <ArrowRight className="ml-2 w-5 h-5" />
+            SHOP NOW <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>
       </section>
@@ -88,6 +91,9 @@ const Landing = () => {
           </Link>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
