@@ -1,4 +1,4 @@
-import { ArrowLeft, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Mail, Lock, ArrowRight, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
@@ -15,6 +15,7 @@ const SignUp = () => {
     general?: string;
   }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = (): boolean => {
@@ -53,7 +54,7 @@ const SignUp = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    // Run validatiosn checks before proceeding
+    // Run validation checks before proceeding
     if (!validateForm()) return;
 
     setIsLoading(true);
@@ -61,9 +62,12 @@ const SignUp = () => {
 
     // Sign up process
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: "http://localhost:3000/e-commerce/verify" 
+        }
       });
 
       if (error) {
@@ -72,6 +76,13 @@ const SignUp = () => {
         } else {
           setErrors({ general: error.message });
         }
+      } else if (data.user && !data.session) {
+        // User created but needs email verification
+        setShowSuccess(true);
+      } else if (data.session) {
+      
+      
+        navigate("/account");
       }
     } catch (error) {
       console.error("Signup error:", error);
@@ -81,7 +92,95 @@ const SignUp = () => {
     }
   };
 
-  // Components
+  // Resend verification email
+  const resendVerification = async () => {
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email
+      });
+      
+      if (error) {
+        setErrors({ general: "Failed to resend verification email" });
+      } else {
+        setErrors({ general: "" });
+        // Show temporary success message
+        setErrors({ general: "Verification email resent!" });
+        setTimeout(() => setErrors({ general: "" }), 3000);
+      }
+    } catch (error) {
+      console.error(error);
+      setErrors({ general: "Failed to resend verification email" });
+    }
+  };
+
+  // Success screen
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen max-w-screen flex items-center justify-center p-2 bg-red-600">
+        <ArrowLeft
+          className="absolute left-5 top-5 text-white text-2xl cursor-pointer hover:text-red-200 transition-colors"
+          onClick={() => setShowSuccess(false)}
+        />
+
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md space-y-6 text-center">
+          {/* Success Icon */}
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+            </div>
+          </div>
+
+          {/* Title */}
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Check Your Email!</h1>
+            <p className="text-gray-600 mt-2">We've sent a verification link to</p>
+            <p className="text-red-600 font-semibold">{email}</p>
+          </div>
+
+          {/* Instructions */}
+          <div className="bg-gray-50 rounded-lg p-4 text-left">
+            <h3 className="font-semibold text-gray-900 mb-2">Next steps:</h3>
+            <ol className="text-sm text-gray-600 space-y-1">
+              <li>1. Check your email inbox</li>
+              <li>2. Click the verification link</li>
+              <li>3. You'll be redirected back to login</li>
+            </ol>
+          </div>
+
+          {/* Actions */}
+          <div className="space-y-3">
+            <button
+              onClick={resendVerification}
+              className="w-full text-red-600 hover:text-red-700 py-2 font-medium transition-colors"
+            >
+              Didn't receive the email? Resend
+            </button>
+            
+            <Link
+              to="/login"
+              className="block w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+            >
+              Back to Login
+            </Link>
+          </div>
+
+          {/* Error message for resend */}
+          {errors.general && (
+            <div className={`text-sm p-2 rounded ${
+              errors.general.includes('resent') 
+                ? 'bg-green-50 text-green-700' 
+                : 'bg-red-50 text-red-700'
+            }`}>
+              {errors.general}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Regular signup form
   return (
     <div className="min-h-screen max-w-screen flex items-center justify-center p-2 bg-red-600">
       {/* Back arrow */}

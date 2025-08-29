@@ -8,6 +8,7 @@ import Checkout from "./pages/checkout";
 import SignUp from "./pages/sign-up";
 import About from "./pages/about";
 import ContactUs from "./pages/contact";
+import EmailVerification from "./pages/email-verification";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/verify" element={<EmailVerification />} />
     </Routes>
   );
 }
