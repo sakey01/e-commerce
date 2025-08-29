@@ -9,7 +9,6 @@ const Landing = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-
   // Newsletter
   const handleSubmission = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -33,10 +32,11 @@ const Landing = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="flex-1 flex flex-col justify-center items-center text-center px-4 py-16 max-w-6xl gap-8 mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-          URBANARC  <span className="text-red-600 decoration-red-300">Changed Everything</span>
+      <section className="flex-1 flex flex-col px-4 py-20 max-w-6xl gap-4 mt-[10vh] mx-auto">
+        <h1 className="text-5xl md:text-7xl font-bold text-gray-900 max-w-150">
+          URBANARC <span className="text-red-600 decoration-red-300"> NEW CLOTHES IN STOCK</span>
         </h1>
+        <p className="text-neutral-900 mb-4">Wether you're looking for a quick fix or a fancy wardrobe, we've got you covered</p>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -44,7 +44,7 @@ const Landing = () => {
             to="/products"
             className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 text-xl font-bold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
           >
-            SHOP NOW <ArrowRight className="ml-2 w-5 h-5" />
+            SHOP NOW <ArrowRight className="ml-2 w-5 h-5"/>
           </Link>
         </div>
       </section>
@@ -52,8 +52,8 @@ const Landing = () => {
       {/* Email Newsletter */}
       <section className="py-16 bg-red-600 text-white">
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-4xl font-bold mb-4">Get 25% Off Your First Order</h2>
-          <p className="text-xl mb-8">Join our soup lovers community and never miss a deal</p>
+          <h2 className="text-4xl font-bold mb-4">Get 15% Off Your First Order</h2>
+          <p className="text-xl mb-8">Join our money savers and never miss a deal</p>
 
           <form onSubmit={handleSubmission} className="flex flex-col sm:flex-row max-w-md mx-auto">
             <input
@@ -67,7 +67,7 @@ const Landing = () => {
               className="bg-gray-900 hover:bg-gray-800 px-8 py-4 font-bold rounded-r-lg sm:rounded-l-none rounded-l-lg transition-colors"
               disabled={!!message}
             >
-              GET 25% OFF
+              GET 15% OFF
             </button>
           </form>
 
@@ -75,20 +75,6 @@ const Landing = () => {
             No spam, just delicious deals. Unsubscribe anytime.
           </p>
           {message && <div>{message}</div>}
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-16 bg-white text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-4">Ready to Join?</h2>
-
-          <Link
-            to="/products"
-            className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-12 py-5 text-2xl font-bold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-          >
-            SHOP NOW - FREE SHIPPING <ArrowRight className="ml-3 w-6 h-6" />
-          </Link>
         </div>
       </section>
 

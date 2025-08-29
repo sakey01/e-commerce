@@ -8,7 +8,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
@@ -60,7 +59,6 @@ const SignUp = () => {
     setIsLoading(true);
     setErrors({});
 
-
     // Sign up process
     try {
       const { error } = await supabase.auth.signUp({
@@ -83,10 +81,9 @@ const SignUp = () => {
     }
   };
 
-
   // Components
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center p-4 bg-red-600">
+    <div className="min-h-screen max-w-screen flex items-center justify-center p-2 bg-red-600">
       {/* Back arrow */}
       <ArrowLeft
         className="absolute left-5 top-5 text-white text-2xl cursor-pointer hover:text-red-200 transition-colors"
@@ -180,26 +177,19 @@ const SignUp = () => {
               <input
                 id="password2"
                 name="password2"
-                type={showPassword2 ? "text" : "password"}
+                type="password"
                 placeholder="Confirm your password"
                 value={password2}
                 onChange={(e) => {
                   setPassword2(e.target.value);
                   if (errors.password2) setErrors({ ...errors, password2: "" });
                 }}
-                className={`w-full pl-11 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all duration-200 ${
+                className={`w-full pl-11 pr-2 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all duration-200 ${
                   errors.password2
                     ? "border-red-300 bg-red-50"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword2(!showPassword2)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
-              >
-                {showPassword2 ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
             </div>
             {errors.password2 && <p className="text-red-500 text-sm mt-1">{errors.password2}</p>}
           </div>

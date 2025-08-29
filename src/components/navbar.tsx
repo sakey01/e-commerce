@@ -33,20 +33,6 @@ const Navbar = () => {
                 Shop All
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-200 transition-all duration-200 group-hover:w-full"></span>
               </Link>
-              <Link
-                to="/about"
-                className="text-white hover:text-red-200 font-medium transition-colors duration-200 relative group"
-              >
-                About
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-200 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link
-                to="/contact"
-                className="text-white hover:text-red-200 font-medium transition-colors duration-200 relative group"
-              >
-                Contact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-200 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
             </div>
 
             {/* Brand Name - Center */}
