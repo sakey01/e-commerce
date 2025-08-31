@@ -9,7 +9,6 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
