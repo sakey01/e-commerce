@@ -9,7 +9,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const { isComplete, setIsComplete } = useState<boolean>(false);
   const navigate = useNavigate();
   const { errors, validate } = useValidation();
 
@@ -17,7 +17,6 @@ const SignUp = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setSuccess(null);
 
     // email + password validation hook
     const isValid = validate(email, password, password2);
@@ -34,13 +33,29 @@ const SignUp = () => {
 
     if (error) {
       setError(error.message);
+      // No errors:
     } else {
-      setSuccess("Account created! Check your email to verify.");
+      setIsComplete(true);
     }
   };
 
+  if (isComplete) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-red-600 ">
+        <div className="bg-white">
+          <h2>What now?</h2>
+          <ol>
+            <li>Open your inbox</li>
+            <li>Click on the link you were sent</li>
+            <li>Follow the steps</li>
+          </ol>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-2 bg-red-600">
+    <div className="min-h-screen flex items-center justify-center bg-red-600">
       <ArrowLeft
         className="absolute left-5 top-5 text-white text-2xl cursor-pointer hover:text-red-200 transition-colors"
         onClick={() => navigate("/login")}
@@ -113,9 +128,8 @@ const SignUp = () => {
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
-          {/* Error / Success messages */}
+          {/* Error messages */}
           {error && <p className="text-sm text-red-600">{error}</p>}
-          {success && <p className="text-sm text-green-600">{success}</p>}
 
           {/* Submit */}
           <button
